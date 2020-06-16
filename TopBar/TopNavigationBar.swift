@@ -10,14 +10,14 @@
 import UIKit
 
 
-public protocol CD_TopNavigationBarProtocol: NSObjectProtocol {
+public protocol TopNavigationBarProtocol: NSObjectProtocol {
     /// 更新按钮样式
-    func topNavigationBar(_ topNavigationBar:CD_TopNavigationBar, updateItemStyleForItem item:CD_TopNavigationBar.Item) -> [CD_TopNavigationBarItem.Item.Style]?
+    func topNavigationBar(_ topNavigationBar:TopNavigationBar, updateItemStyleForItem item:TopNavigationBar.Item) -> [TopNavigationBarItem.Item.Style]?
     /// 按钮事件
-    func topNavigationBar(_ topNavigationBar:CD_TopNavigationBar, didSelectAt  item:CD_TopNavigationBar.Item)
+    func topNavigationBar(_ topNavigationBar:TopNavigationBar, didSelectAt  item:TopNavigationBar.Item)
 }
 
-extension CD_TopNavigationBar {
+extension TopNavigationBar {
     public enum Style:String {
         case value10 = "10"
         case value11 = "11"
@@ -53,7 +53,7 @@ extension CD_TopNavigationBar {
 }
 
 //@IBDesignable
-open class CD_TopNavigationBar: UIView {
+open class TopNavigationBar: UIView {
     
     public lazy var img_bg:UIImageView = {
         return UIImageView().cd.clips(true).build
@@ -61,24 +61,24 @@ open class CD_TopNavigationBar: UIView {
     
     public lazy var line:UIView = {
         return UIView().cd
-            .background(CD_TopBar.Model.color_line)
+            .background(TopBar.Model.color_line)
             .build
     }()
-    public lazy var item_left:CD_TopNavigationBarItem = {
-        let item = CD_TopNavigationBarItem()
+    public lazy var item_left:TopNavigationBarItem = {
+        let item = TopNavigationBarItem()
         item.delegate = self
         item.tag = 10
         return item
     }()
-    public lazy var item_centre:CD_TopNavigationBarItem = {
-        let item = CD_TopNavigationBarItem()
+    public lazy var item_centre:TopNavigationBarItem = {
+        let item = TopNavigationBarItem()
         item.delegate = self
         item.tag = 20
         return item
     }()
     
-    public lazy var item_right:CD_TopNavigationBarItem = {
-        let item = CD_TopNavigationBarItem()
+    public lazy var item_right:TopNavigationBarItem = {
+        let item = TopNavigationBarItem()
         item.delegate = self
         item.tag = 30
         return item
@@ -86,7 +86,7 @@ open class CD_TopNavigationBar: UIView {
     
     
     /// 样式
-    public var style:CD_TopNavigationBar.Style = .value10 {
+    public var style:TopNavigationBar.Style = .value10 {
         didSet{
             makeWithStyle()
         }
@@ -114,7 +114,7 @@ open class CD_TopNavigationBar: UIView {
     /// 样式
     @IBInspectable open var _style:String? {
         didSet{
-            style = CD_TopNavigationBar.Style(rawValue: _style ?? "10") ?? CD_TopNavigationBar.Style.value10
+            style = TopNavigationBar.Style(rawValue: _style ?? "10") ?? TopNavigationBar.Style.value10
         }
     }
     
@@ -132,34 +132,34 @@ open class CD_TopNavigationBar: UIView {
         }
     }
     /// 左右导航标签颜色
-    @IBInspectable open var _colorNormal:UIColor = CD_TopBar.Model.color_normal {
+    @IBInspectable open var _colorNormal:UIColor = TopBar.Model.color_normal {
         didSet{
             item_left._colorNormal = _colorNormal
             item_right._colorNormal = _colorNormal
         }
     }
     /// 左右导航标签颜色
-    @IBInspectable open var _colorSelected:UIColor = CD_TopBar.Model.color_selected {
+    @IBInspectable open var _colorSelected:UIColor = TopBar.Model.color_selected {
         didSet{
             item_left._colorSelected = _colorSelected
             item_right._colorSelected = _colorSelected
         }
     }
     /// 左右导航标签颜色
-    @IBInspectable open var _colorHighlighted:UIColor = CD_TopBar.Model.color_highlighted {
+    @IBInspectable open var _colorHighlighted:UIColor = TopBar.Model.color_highlighted {
         didSet{
             item_left._colorHighlighted = _colorHighlighted
             item_right._colorHighlighted = _colorHighlighted
         }
     }
     /// 标题颜色
-    @IBInspectable open var _colorTitle:UIColor = CD_TopBar.Model.color_title {
+    @IBInspectable open var _colorTitle:UIColor = TopBar.Model.color_title {
         didSet{
             item_centre._colorTitle = _colorTitle
         }
     }
     /// 副标题颜色
-    @IBInspectable open var _colorSubTitle:UIColor = CD_TopBar.Model.color_subTitle {
+    @IBInspectable open var _colorSubTitle:UIColor = TopBar.Model.color_subTitle {
         didSet{
             item_centre._colorSubTitle = _colorSubTitle
         }
@@ -198,19 +198,19 @@ open class CD_TopNavigationBar: UIView {
     
     //MARK:--- 子级 控件 ----------
     /// 左侧 item 内 按钮1宽度
-    @IBInspectable open var _leftWidth1:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _leftWidth1:CGFloat = TopBar.Model.height_navigation {
         didSet{
             item_left._width1 = _leftWidth1
         }
     }
     /// 左侧 item 内 按钮2宽度
-    @IBInspectable open var _leftWidth2:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _leftWidth2:CGFloat = TopBar.Model.height_navigation {
         didSet{
             item_left._width2 = _leftWidth2
         }
     }
     /// 左侧 item 内 按钮3宽度
-    @IBInspectable open var _leftWidth3:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _leftWidth3:CGFloat = TopBar.Model.height_navigation {
         didSet{
             item_left._width3 = _leftWidth3
         }
@@ -236,19 +236,19 @@ open class CD_TopNavigationBar: UIView {
     }
     
     /// 右侧 item 内 按钮1宽度
-    @IBInspectable open var _rightWidth1:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _rightWidth1:CGFloat = TopBar.Model.height_navigation {
         didSet{
             item_right._width1 = _rightWidth1
         }
     }
     /// 右侧 item 内 按钮2宽度
-    @IBInspectable open var _rightWidth2:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _rightWidth2:CGFloat = TopBar.Model.height_navigation {
         didSet{
             item_right._width2 = _rightWidth2
         }
     }
     /// 右侧 item 内 按钮3宽度
-    @IBInspectable open var _rightWidth3:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _rightWidth3:CGFloat = TopBar.Model.height_navigation {
         didSet{
             item_right._width3 = _rightWidth3
         }
@@ -273,7 +273,7 @@ open class CD_TopNavigationBar: UIView {
     }
     
     //MARK:--- 初始化 ----------
-    weak public var delegate:CD_TopNavigationBarProtocol? {
+    weak public var delegate:TopNavigationBarProtocol? {
         didSet{
             guard delegate != nil else {return}
             reloadData()
@@ -281,14 +281,14 @@ open class CD_TopNavigationBar: UIView {
             callBack = nil
         }
     }
-    var callBack:((CD_TopNavigationBar.Item)->Void)? {
+    var callBack:((TopNavigationBar.Item)->Void)? {
         didSet{
             guard callBack != nil else {return}
             guard delegate != nil else {return}
             delegate = nil
         }
     }
-    convenience public init(_ callBack:((CD_TopNavigationBar.Item)->Void)? = nil){
+    convenience public init(_ callBack:((TopNavigationBar.Item)->Void)? = nil){
         self.init(frame: CGRect.zero)
         self.callBack = callBack
     }
@@ -305,7 +305,7 @@ open class CD_TopNavigationBar: UIView {
 }
 
 
-extension CD_TopNavigationBar {
+extension TopNavigationBar {
     func makeUI() {
         self.cd
             .add(img_bg)
@@ -343,7 +343,7 @@ extension CD_TopNavigationBar {
         
         line.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
-            make.height.equalTo(CD_TopBar.Model.height_line)
+            make.height.equalTo(TopBar.Model.height_line)
         }
         
         makeWithStyle()
@@ -405,7 +405,7 @@ extension CD_TopNavigationBar {
 }
 
 //MARK:--- 更新 ----------
-extension CD_TopNavigationBar {
+extension TopNavigationBar {
     /// 此更新方法用于 delegate 类回调更新
     public func reloadData() {
         if self.delegate?.topNavigationBar(self, updateItemStyleForItem: .leftItem1) != nil ||
@@ -424,7 +424,7 @@ extension CD_TopNavigationBar {
         }
     }
     /// 此更新方法一般用于 callBack 类回调更新
-    public func reloadData(with item:CD_TopNavigationBar.Item, styles:[CD_TopNavigationBarItem.Item.Style]) {
+    public func reloadData(with item:TopNavigationBar.Item, styles:[TopNavigationBarItem.Item.Style]) {
         switch item {
         case .leftItem1:
             item_left.reloadData(with: .item1, styles: styles)
@@ -448,14 +448,14 @@ extension CD_TopNavigationBar {
     }
 }
 
-extension CD_TopNavigationBar: CD_TopNavigationBarItemProtocol {
-    public func topNavigationBarItem(_ topNavigationBarItem: CD_TopNavigationBarItem, itemTag tag: Int, updateItemStyleForItem item: CD_TopNavigationBarItem.Item) -> [CD_TopNavigationBarItem.Item.Style]? {
-        return self.delegate?.topNavigationBar(self, updateItemStyleForItem: CD_TopNavigationBar.Item(rawValue: topNavigationBarItem.tag + item.rawValue) ?? .itemNone)
+extension TopNavigationBar: TopNavigationBarItemProtocol {
+    public func topNavigationBarItem(_ topNavigationBarItem: TopNavigationBarItem, itemTag tag: Int, updateItemStyleForItem item: TopNavigationBarItem.Item) -> [TopNavigationBarItem.Item.Style]? {
+        return self.delegate?.topNavigationBar(self, updateItemStyleForItem: TopNavigationBar.Item(rawValue: topNavigationBarItem.tag + item.rawValue) ?? .itemNone)
     }
     
-    public func topNavigationBarItem(_ topNavigationBarItem: CD_TopNavigationBarItem, didSelectAt item: CD_TopNavigationBarItem.Item) {
-        self.delegate?.topNavigationBar(self, didSelectAt: CD_TopNavigationBar.Item(rawValue: topNavigationBarItem.tag + item.rawValue) ?? .itemNone)
+    public func topNavigationBarItem(_ topNavigationBarItem: TopNavigationBarItem, didSelectAt item: TopNavigationBarItem.Item) {
+        self.delegate?.topNavigationBar(self, didSelectAt: TopNavigationBar.Item(rawValue: topNavigationBarItem.tag + item.rawValue) ?? .itemNone)
         
-        self.callBack?(CD_TopNavigationBar.Item(rawValue: topNavigationBarItem.tag + item.rawValue) ?? .itemNone)
+        self.callBack?(TopNavigationBar.Item(rawValue: topNavigationBarItem.tag + item.rawValue) ?? .itemNone)
     }
 }

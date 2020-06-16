@@ -11,7 +11,7 @@ import UIKit
 
 
 //@IBDesignable
-open class CD_TopStatusBar: UIView {
+open class TopStatusBar: UIView {
     public lazy var img_bg:UIImageView = {
         return UIImageView().cd.clips(true).build
     }()
@@ -19,7 +19,7 @@ open class CD_TopStatusBar: UIView {
         let lab = UILabel().cd
             .text("")
             .text(_colorPrompt)
-            .text(CD_TopBar.Model.font_prompt)
+            .text(TopBar.Model.font_prompt)
             .text(NSTextAlignment.center)
             .adjusts(true)
             .clips(true)
@@ -42,7 +42,7 @@ open class CD_TopStatusBar: UIView {
         }
     }
     /// 副标题颜色
-    @IBInspectable open var _colorPrompt:UIColor = CD_TopBar.Model.color_prompt {
+    @IBInspectable open var _colorPrompt:UIColor = TopBar.Model.color_prompt {
         didSet{
             lab_1.cd.text(_colorPrompt)
         }
@@ -74,13 +74,13 @@ open class CD_TopStatusBar: UIView {
             make.bottom.equalToSuperview()
             make.left.equalToSuperview().offset(8)
             make.centerX.equalToSuperview()
-            make.height.equalTo(CD_TopBar.Model.height_prompt)
+            make.height.equalTo(TopBar.Model.height_prompt)
         }
     }
 }
 
 /*
-extension CD_TopStatusBar {
+extension TopStatusBar {
     func makeLayout() {
         do{
             lab_1.translatesAutoresizingMaskIntoConstraints = false

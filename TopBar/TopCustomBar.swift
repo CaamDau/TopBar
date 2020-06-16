@@ -11,7 +11,7 @@ import UIKit
 
 
 //@IBDesignable
-open class CD_TopCustomBar: UIView {
+open class TopCustomBar: UIView {
     override public init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.clear

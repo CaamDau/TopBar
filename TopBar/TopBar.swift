@@ -2,15 +2,15 @@
 
 /***** 模块文档 *****
  * 自定义导航栏
-   该导航栏由 ：整体背景(CD_TopBar)、
+   该导航栏由 ：整体背景(TopBar)、
  
-              状态栏(CD_TopStatusBar)、
-              导航栏(CD_TopNavigationBar)、
-              自定义栏(CD_TopCustomBar)
+              状态栏(TopStatusBar)、
+              导航栏(TopNavigationBar)、
+              自定义栏(TopCustomBar)
    每个栏可独立使用
  
    状态栏由 一个背景 ImageView + Label(prompt)组成
-   导航栏由 三个 CD_TopNavigationBarItem 组成 左侧按钮区、中部标题区、右侧按钮区
+   导航栏由 三个 TopNavigationBarItem 组成 左侧按钮区、中部标题区、右侧按钮区
    自定义栏 无任何子控件
  */
 
@@ -19,34 +19,34 @@
 
 import UIKit
 
-public protocol CD_TopBarProtocol: NSObjectProtocol {
+public protocol TopBarProtocol: NSObjectProtocol {
     /// TopBar 自定义
-    func topBar(custom topBar:CD_TopBar)
+    func topBar(custom topBar:TopBar)
     
     /// 新：更新按钮样式
-    func topBar(_ topBar:CD_TopBar, updateItemStyleForItem item:CD_TopNavigationBar.Item) -> [CD_TopNavigationBarItem.Item.Style]?
+    func topBar(_ topBar:TopBar, updateItemStyleForItem item:TopNavigationBar.Item) -> [TopNavigationBarItem.Item.Style]?
     /// 新：按钮事件
-    func topBar(_ topBar:CD_TopBar, didSelectAt item:CD_TopNavigationBar.Item)
+    func topBar(_ topBar:TopBar, didSelectAt item:TopNavigationBar.Item)
 }
 
-extension CD_TopBarProtocol {
+extension TopBarProtocol {
     /// TopBar 自定义
-    public func topBar(custom topBar:CD_TopBar) {
+    public func topBar(custom topBar:TopBar) {
         
     }
     
-    public func topBar(_ topBar:CD_TopBar, updateItemStyleForItem item:CD_TopNavigationBar.Item) -> [CD_TopNavigationBarItem.Item.Style]? {
+    public func topBar(_ topBar:TopBar, updateItemStyleForItem item:TopNavigationBar.Item) -> [TopNavigationBarItem.Item.Style]? {
         return topBar.topBarItemUpdate(item)
     }
     
-    public func topBar(_ topBar:CD_TopBar, didSelectAt item:CD_TopNavigationBar.Item) {
+    public func topBar(_ topBar:TopBar, didSelectAt item:TopNavigationBar.Item) {
         topBar.topBarItemClick(item)
     }
 }
 
 
 //@IBDesignable
-open class CD_TopBar: UIView {
+open class TopBar: UIView {
     /// 可变统一配置全局常量
     public struct Model {
         /// 状态栏 高度
@@ -88,7 +88,7 @@ open class CD_TopBar: UIView {
         
         
         /// 指定左侧默认返回按钮
-        public static var back:CD_TopNavigationBarItem.Item.Style = .title([(CD_IconFont.tback_light(30).text,CD_IconFont.tback_light(30).font,.cd_hex("0", dark: "f"),.normal), (CD_IconFont.tback_light(30).text,CD_IconFont.tback_light(30).font,.cd_hex("d3", dark: "f0"),.highlighted), (CD_IconFont.tback_light(30).text,CD_IconFont.tback_light(30).font,.cd_hex("d3", dark: "f0"),.selected)])
+        public static var back:TopNavigationBarItem.Item.Style = .title([(IconFont.tback_light(30).text,IconFont.tback_light(30).font,.cd_hex("0", dark: "f"),.normal), (IconFont.tback_light(30).text,IconFont.tback_light(30).font,.cd_hex("d3", dark: "f0"),.highlighted), (IconFont.tback_light(30).text,IconFont.tback_light(30).font,.cd_hex("d3", dark: "f0"),.selected)])
     }
     
     
@@ -97,22 +97,22 @@ open class CD_TopBar: UIView {
         return UIImageView().cd.clips(true).build
     }()
     /// 状态栏
-    public lazy var bar_status:CD_TopStatusBar = {
-        return CD_TopStatusBar().cd
+    public lazy var bar_status:TopStatusBar = {
+        return TopStatusBar().cd
             .background(_colorStatusBar)
             .build
     }()
     /// 导航栏
-    public lazy var bar_navigation:CD_TopNavigationBar = {
-        let bar =  CD_TopNavigationBar().cd
+    public lazy var bar_navigation:TopNavigationBar = {
+        let bar =  TopNavigationBar().cd
             .background(_bgColorNavigationBar)
             .build
         bar.delegate = self
         return bar
     }()
     /// 自定义栏
-    public lazy var bar_custom:CD_TopCustomBar = {
-        return CD_TopCustomBar().cd
+    public lazy var bar_custom:TopCustomBar = {
+        return TopCustomBar().cd
             .background(UIColor.clear)
             .build
     }()
@@ -204,37 +204,37 @@ open class CD_TopBar: UIView {
     }
     
     /// 左右导航标签颜色
-    @IBInspectable open var _colorNormal:UIColor = CD_TopBar.Model.color_normal {
+    @IBInspectable open var _colorNormal:UIColor = TopBar.Model.color_normal {
         didSet{
             bar_navigation._colorNormal = _colorNormal
         }
     }
     /// 左右导航标签颜色
-    @IBInspectable open var _colorSelected:UIColor = CD_TopBar.Model.color_selected {
+    @IBInspectable open var _colorSelected:UIColor = TopBar.Model.color_selected {
         didSet{
             bar_navigation._colorSelected = _colorSelected
         }
     }
     /// 左右导航标签颜色
-    @IBInspectable open var _colorHighlighted:UIColor = CD_TopBar.Model.color_highlighted {
+    @IBInspectable open var _colorHighlighted:UIColor = TopBar.Model.color_highlighted {
         didSet{
             bar_navigation._colorHighlighted = _colorHighlighted
         }
     }
     /// 标题颜色
-    @IBInspectable open var _colorTitle:UIColor = CD_TopBar.Model.color_title {
+    @IBInspectable open var _colorTitle:UIColor = TopBar.Model.color_title {
         didSet{
             bar_navigation._colorTitle = _colorTitle
         }
     }
     /// 副标题颜色
-    @IBInspectable open var _colorSubTitle:UIColor = CD_TopBar.Model.color_subTitle {
+    @IBInspectable open var _colorSubTitle:UIColor = TopBar.Model.color_subTitle {
         didSet{
             bar_navigation._colorSubTitle = _colorSubTitle
         }
     }
     /// Prompt标题颜色
-    @IBInspectable open var _colorPrompt:UIColor = CD_TopBar.Model.color_prompt {
+    @IBInspectable open var _colorPrompt:UIColor = TopBar.Model.color_prompt {
         didSet{
             bar_status._colorPrompt = _colorPrompt
         }
@@ -243,13 +243,13 @@ open class CD_TopBar: UIView {
     
     //MARK:--- 宽高 ----------
     /// 状态栏高度
-    @IBInspectable open var _heightStatusBar:CGFloat = CD_TopBar.Model.height_status {
+    @IBInspectable open var _heightStatusBar:CGFloat = TopBar.Model.height_status {
         didSet{
             updateStatusPrompt()
         }
     }
     /// 状态栏 Prompt 部分 高度 - 在设置 Prompt 后有效
-    @IBInspectable open var _heightStatusPrompt:CGFloat = CD_TopBar.Model.height_prompt {
+    @IBInspectable open var _heightStatusPrompt:CGFloat = TopBar.Model.height_prompt {
         didSet{
             updateStatusPrompt()
         }
@@ -272,25 +272,25 @@ open class CD_TopBar: UIView {
     /// TopBar 总高度
     open var _heightTopBar:CGFloat {
         get{
-            return _heightStatusBar + CD_TopBar.Model.height_navigation + heightStatusPrompt + _heightCustomBar
+            return _heightStatusBar + TopBar.Model.height_navigation + heightStatusPrompt + _heightCustomBar
         }
     }
     
     //MARK:--- 子级 控件 ----------
     /// 导航栏左侧 Item 按钮1的宽度
-    @IBInspectable open var _leftItemsWidth1:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _leftItemsWidth1:CGFloat = TopBar.Model.height_navigation {
         didSet{
             bar_navigation._leftWidth1 = _leftItemsWidth1
         }
     }
     /// 导航栏左侧 Item 按钮2的宽度
-    @IBInspectable open var _leftItemsWidth2:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _leftItemsWidth2:CGFloat = TopBar.Model.height_navigation {
         didSet{
             bar_navigation._leftWidth2 = _leftItemsWidth2
         }
     }
     /// 导航栏左侧 Item 按钮3的宽度
-    @IBInspectable open var _leftItemsWidth3:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _leftItemsWidth3:CGFloat = TopBar.Model.height_navigation {
         didSet{
             bar_navigation._leftWidth3 = _leftItemsWidth3
         }
@@ -315,19 +315,19 @@ open class CD_TopBar: UIView {
         }
     }
     /// 导航栏右侧 Item 按钮1的宽度
-    @IBInspectable open var _rightItemsWidth1:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _rightItemsWidth1:CGFloat = TopBar.Model.height_navigation {
         didSet{
             bar_navigation._rightWidth1 = _rightItemsWidth1
         }
     }
     /// 导航栏右侧 Item 按钮2的宽度
-    @IBInspectable open var _rightItemsWidth2:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _rightItemsWidth2:CGFloat = TopBar.Model.height_navigation {
         didSet{
             bar_navigation._rightWidth2 = _rightItemsWidth2
         }
     }
     /// 导航栏右侧 Item 按钮3的宽度
-    @IBInspectable open var _rightItemsWidth3:CGFloat = CD_TopBar.Model.height_navigation {
+    @IBInspectable open var _rightItemsWidth3:CGFloat = TopBar.Model.height_navigation {
         didSet{
             bar_navigation._rightWidth3 = _rightItemsWidth3
         }
@@ -353,7 +353,7 @@ open class CD_TopBar: UIView {
     
     //MARK:--- init ----------
     /// 导航栏按钮交互响应回调方式 - 代理
-    weak open var delegate :CD_TopBarProtocol? {
+    weak open var delegate :TopBarProtocol? {
         didSet{
             guard delegate != nil else {return}
             reloadData()
@@ -362,7 +362,7 @@ open class CD_TopBar: UIView {
         }
     }
     /// 导航栏按钮交互响应回调方式 - 闭包
-    public var callBack:((CD_TopNavigationBar.Item) -> Void)? {
+    public var callBack:((TopNavigationBar.Item) -> Void)? {
         didSet{
             guard self.callBack != nil else {return}
             guard self.delegate != nil else {return}
@@ -383,20 +383,20 @@ open class CD_TopBar: UIView {
     convenience public init() {
         self.init(frame: CGRect.zero)
     }
-    convenience public init(_ delegate:CD_TopBarProtocol) {
+    convenience public init(_ delegate:TopBarProtocol) {
         self.init(frame: CGRect.zero)
         self.delegate = delegate
     }
     
-    convenience public init(_ callBack:((CD_TopNavigationBar.Item) -> Void)? = nil) {
+    convenience public init(_ callBack:((TopNavigationBar.Item) -> Void)? = nil) {
         self.init(frame: CGRect.zero)
         self.callBack = callBack
     }
 }
-private extension CD_TopBar {
+private extension TopBar {
     func makeUI() {
         self.cd
-            .background(CD_TopBar.Model.color_bg)
+            .background(TopBar.Model.color_bg)
             .add(img_bg)
             .add(bar_navigation)
             .add(bar_custom)
@@ -420,7 +420,7 @@ private extension CD_TopBar {
             make.left.right.equalToSuperview()
             //make.top.equalToSuperview().offset(_heightStatusBar)
             make.top.equalTo(bar_status.snp.bottom)
-            make.height.equalTo(CD_TopBar.Model.height_navigation)
+            make.height.equalTo(TopBar.Model.height_navigation)
         }
         bar_custom.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
@@ -457,10 +457,10 @@ private extension CD_TopBar {
         }
         if CD.topVC?.navigationController?.viewControllers.count == 1 {
             bar_navigation.item_left.btn_1.cd
-                .text("").text(CD_TopBar.Model.font_title)
+                .text("").text(TopBar.Model.font_title)
         }
         
-        CD_Timer.after(2) {
+        Time.after(2) {
             print("cd_1-->")
             print("cd_visVC-->",CD.visibleVC)
             print("cd_topVC-->",CD.topVC)
@@ -471,25 +471,25 @@ private extension CD_TopBar {
 }
 
 
-extension CD_TopBar {
+extension TopBar {
     public func reloadData() {
         self.delegate?.topBar(custom: self)
         self.bar_navigation.reloadData()
         
     }
-    public func reloadData(with item:CD_TopNavigationBar.Item, styles:[CD_TopNavigationBarItem.Item.Style]) {
+    public func reloadData(with item:TopNavigationBar.Item, styles:[TopNavigationBarItem.Item.Style]) {
         self.bar_navigation.reloadData(with: item, styles: styles)
     }
 }
 
-extension CD_TopBar: CD_TopNavigationBarProtocol {
-    public func topNavigationBar(_ topNavigationBar: CD_TopNavigationBar, updateItemStyleForItem item: CD_TopNavigationBar.Item) -> [CD_TopNavigationBarItem.Item.Style]? {
+extension TopBar: TopNavigationBarProtocol {
+    public func topNavigationBar(_ topNavigationBar: TopNavigationBar, updateItemStyleForItem item: TopNavigationBar.Item) -> [TopNavigationBarItem.Item.Style]? {
         if let de = self.delegate {
             return de.topBar(self, updateItemStyleForItem: item)
         }
         return self.topBarItemUpdate(item)
     }
-    public func topNavigationBar(_ topNavigationBar: CD_TopNavigationBar, didSelectAt item: CD_TopNavigationBar.Item) {
+    public func topNavigationBar(_ topNavigationBar: TopNavigationBar, didSelectAt item: TopNavigationBar.Item) {
         if let de = self.delegate {
             de.topBar(self, didSelectAt: item)
         }
@@ -500,22 +500,22 @@ extension CD_TopBar: CD_TopNavigationBarProtocol {
         }
     }
     
-    public func topBarItemClick(_ item:CD_TopNavigationBar.Item) {
+    public func topBarItemClick(_ item:TopNavigationBar.Item) {
         if item == .leftItem1 {
             CD.pop()
         }
     }
     
-    public func topBarItemUpdate(_ item:CD_TopNavigationBar.Item) -> [CD_TopNavigationBarItem.Item.Style]? {
+    public func topBarItemUpdate(_ item:TopNavigationBar.Item) -> [TopNavigationBarItem.Item.Style]? {
         switch item {
         case .leftItem1:
-            return [CD_TopBar.Model.back]
+            return [TopBar.Model.back]
         default:
             return nil
         }
     }
 }
 
-extension CD_TopBar: CD_TopBarProtocol {
+extension TopBar: TopBarProtocol {
     
 }
